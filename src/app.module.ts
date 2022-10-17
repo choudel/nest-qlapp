@@ -6,23 +6,31 @@ import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppResolver } from './app.resolver';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 
 @Module({
   imports:  [
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
     }),
-    TypeOrmModule.forRoot({
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
-    "password": "",
-    "database": "nestqlapp",
-    "entities": ["dist/**/*.model{.ts,.js}"],
-    "synchronize": true
-    }),ArticleModule],
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: "localhost",
+        port: 3306,
+        username: "root",
+        password: "",
+        database: "nestqlapp",
+        entities: ["dist/**/*.model{.ts,.js}"],
+        synchronize: true,
+      }),}),ArticleModule, AuthModule, UsersModule],
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })
