@@ -1,7 +1,8 @@
 import { Field, ObjectType } from "@nestjs/graphql";
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import {Node} from "src/article/pagination/models/node.model"
-
+import { Article } from "src/article/models/article.model";
+import { Comment } from "src/comment/models/comment.model";
 @Entity()
 @ObjectType()
 export class User extends Node {
@@ -20,4 +21,9 @@ export class User extends Node {
     @Field(()=>String,{nullable:true})
     @Column({nullable:true})
     avatar?:string
+
+    @OneToMany(()=> Article, (target)=>target.author)
+    articles: Article[];
+    @OneToMany(()=> Comment, (target)=>target.author)
+    comments: Comment[];
 }

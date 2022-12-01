@@ -21,4 +21,7 @@ export class UsersService {
     async userGet(email:User['email']):Promise<User>{
         return await this.userRepository.findOneByOrFail({email})
     }
+    async userGetById(id:User['id']):Promise<User>{
+        return await this.userRepository.findOneByOrFail({id});
+    }
 }

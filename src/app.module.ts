@@ -9,6 +9,7 @@ import { AppResolver } from './app.resolver';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CommentModule } from './comment/comment.module';
 
 
 @Module({
@@ -30,7 +31,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         database: "nestqlapp",
         entities: ["dist/**/*.model{.ts,.js}"],
         synchronize: true,
-      }),}),ArticleModule, AuthModule, UsersModule],
+      }),}),ArticleModule, AuthModule, UsersModule, CommentModule],
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })

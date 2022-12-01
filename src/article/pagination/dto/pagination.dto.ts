@@ -21,6 +21,8 @@ export class PaginationArgs{
     skip: number
     @Field(()=>Int)
     take: number
+    @Field(()=>PaginationSortBy,{nullable:true})
+    sortBy?:PaginationSortBy
 }
 @InterfaceType()
 export abstract class Pagination<N extends Node = Node>{
